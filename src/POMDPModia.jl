@@ -1,10 +1,7 @@
 module POMDPModia
 
 using POMDPs
-using POMDPSimulators
-using POMDPModelTools
-using BeliefUpdaters
-using POMDPTesting
+using POMDPTools
 using UUIDs
 using NamedTupleTools
 using Random

@@ -1,8 +1,7 @@
 using POMDPs
-using BeliefUpdaters
-using POMDPPolicies: action
+using POMDPTools
+using POMDPTools: Policies
 using Random
-using POMDPSimulators
 
 abstract type MODIA end
 struct MODIA_Policies; policies; end
@@ -305,31 +304,31 @@ BeliefUpdaters.initialize_belief(modia::MODIA_Updater, initial_obs_vec::Abstract
 
 ### POMDPSimulators.jl overloads ###
 
-POMDPSimulators.simulate(sim::RolloutSimulator, modia::MODIA_of_MDPs, policies::MODIA_Policies) = POMDPSimulators.simulate(sim, modia, policies, modia.states)
-POMDPSimulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies) = POMDPSimulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs)
-POMDPSimulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater) = POMDPSimulators.simulate(sim, modia, policies, bu, rand(initialstate(modia)))
+Simulators.simulate(sim::RolloutSimulator, modia::MODIA_of_MDPs, policies::MODIA_Policies) = Simulators.simulate(sim, modia, policies, modia.states)
+Simulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies) = Simulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs)
+Simulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater) = Simulators.simulate(sim, modia, policies, bu, rand(initialstate(modia)))
 
-POMDPSimulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, initial_states::AbstractArray) = POMDPSimulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs, initial_states)
-POMDPSimulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_states::AbstractArray) = POMDPSimulators.simulate(sim, modia, policies, bu, modia.beliefs, initial_states)
-
-
-POMDPSimulators.simulate(sim::HistoryRecorder, modia::MODIA_of_MDPs, policies::MODIA_Policies) = POMDPSimulators.simulate(sim, modia, policies, modia.states)
-POMDPSimulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies) = POMDPSimulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs)
-POMDPSimulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater) = POMDPSimulators.simulate(sim, modia, policies, bu, rand(initialstate(modia)))
-
-POMDPSimulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies, initial_states::AbstractArray) = POMDPSimulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs, initial_states)
-POMDPSimulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_states::AbstractArray) = POMDPSimulators.simulate(sim, modia, policies, bu, modia.beliefs, initial_states)
+Simulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, initial_states::AbstractArray) = Simulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs, initial_states)
+Simulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_states::AbstractArray) = Simulators.simulate(sim, modia, policies, bu, modia.beliefs, initial_states)
 
 
-POMDPSimulators.simulate(sim::StepSimulator, modia::MODIA_of_MDPs, policies::MODIA_Policies) = POMDPSimulators.simulate(sim, modia, policies, modia.states)
-POMDPSimulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies) = POMDPSimulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs)
-POMDPSimulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater) = POMDPSimulators.simulate(sim, modia, policies, bu, rand(initialstate(modia)))
+Simulators.simulate(sim::HistoryRecorder, modia::MODIA_of_MDPs, policies::MODIA_Policies) = Simulators.simulate(sim, modia, policies, modia.states)
+Simulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies) = Simulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs)
+Simulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater) = Simulators.simulate(sim, modia, policies, bu, rand(initialstate(modia)))
 
-POMDPSimulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, initial_states::AbstractArray) = POMDPSimulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs, initial_states)
-POMDPSimulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_states::AbstractArray) = POMDPSimulators.simulate(sim, modia, policies, bu, modia.beliefs, initial_states)
+Simulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies, initial_states::AbstractArray) = Simulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs, initial_states)
+Simulators.simulate(sim::HistoryRecorder, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_states::AbstractArray) = Simulators.simulate(sim, modia, policies, bu, modia.beliefs, initial_states)
 
 
-function POMDPSimulators.stepthrough(modia::MODIA_of_POMDPs, policies::MODIA_Policies, args...; kwargs...)
+Simulators.simulate(sim::StepSimulator, modia::MODIA_of_MDPs, policies::MODIA_Policies) = Simulators.simulate(sim, modia, policies, modia.states)
+Simulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies) = Simulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs)
+Simulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater) = Simulators.simulate(sim, modia, policies, bu, rand(initialstate(modia)))
+
+Simulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, initial_states::AbstractArray) = Simulators.simulate(sim, modia, policies, POMDPs.updater(policies), modia.beliefs, initial_states)
+Simulators.simulate(sim::StepSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_states::AbstractArray) = Simulators.simulate(sim, modia, policies, bu, modia.beliefs, initial_states)
+
+
+function Simulators.stepthrough(modia::MODIA_of_POMDPs, policies::MODIA_Policies, args...; kwargs...)
     spec_included=false
     if !isempty(args) && isa(last(args), Union{String, Tuple, Symbol})
         spec = last(args)
@@ -345,7 +344,7 @@ function POMDPSimulators.stepthrough(modia::MODIA_of_POMDPs, policies::MODIA_Pol
 end
 
 # TODO: Implement MMF
-function POMDPSimulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_beliefs::MODIA_Beliefs, initial_states::AbstractArray, MMF::Function=x->x)
+function Simulators.simulate(sim::RolloutSimulator, modia::MODIA_of_POMDPs, policies::MODIA_Policies, bu::MODIA_Updater, initial_beliefs::MODIA_Beliefs, initial_states::AbstractArray, MMF::Function=x->x)
     function take_step(pomdp::POMDP, up, safest_a, s, b, disc, rtotal)
         a = safest_a
         sp, o, r = @gen(:sp,:o,:r)(pomdp, s, a, sim.rng)
@@ -412,7 +411,7 @@ end
 
 
 # TODO: Implement MMF
-function POMDPSimulators.simulate(sim::RolloutSimulator, modia::MODIA_of_MDPs, policies::MODIA_Policies, initial_states::MODIA_States, MMF::Function=x->x)
+function Simulators.simulate(sim::RolloutSimulator, modia::MODIA_of_MDPs, policies::MODIA_Policies, initial_states::MODIA_States, MMF::Function=x->x)
     function take_step(mdp::MDP, safest_a, s, disc, rtotal)
         a = safest_a
         sp, r = @gen(:sp,:r)(mdp, s, a, sim.rng)
